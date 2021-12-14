@@ -1,0 +1,33 @@
+{
+  "AllowedHosts": "*",
+  "Serilog": {
+    "Using": ["Serilog.Sinks.MSSqlServer"],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning",
+        "System": "Warning"
+      }
+    },
+    "Enrich": [
+      "FromLogContext",
+      "WithMachineName",
+      "WithProcesId",
+      "WithThreadId"
+    ],
+    "WriteTo": [
+      { "Name": "Console" },
+      {
+        "Name": "MSSqlServer",
+        "Args": {
+          "connectionString": "Server=localhost;Database=Labdb;User Id=sa;Password=1234ABCD;",
+          "schemaName": "dbo",
+          "tableName": "AppLog",
+          "autoCreateSqlTable": true,
+          "batchPostingLimit": 1000,
+          "period": "0.00:00:30"
+        }
+      }
+    ]
+  }
+}
